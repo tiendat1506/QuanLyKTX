@@ -1,0 +1,58 @@
+@model QuanLyKTX.Models.HopDong
+@{ ViewData["Title"] = "Chi tiết hợp đồng"; }
+
+<div class="card-panel form-card reveal-up d1">
+    <div class="card-core">
+        <div class="d-flex justify-content-between align-items-start mb-4">
+            <div>
+                <h4 class="fw-bold mb-1">Hợp đồng #@Model.MaHopDong</h4>
+                <div class="text-muted">Phòng @Model.Phong?.TenPhong — @Model.NguoiThue?.HoTen</div>
+            </div>
+            @{
+                var (cls, text) = Model.TrangThai switch
+                {
+                    QuanLyKTX.Models.TrangThaiHopDong.DangHieuLuc => ("badge-trong", "Đang hiệu lực"),
+                    QuanLyKTX.Models.TrangThaiHopDong.DaKetThuc => ("badge-daday", "Đã kết thúc"),
+                    _ => ("badge-baotri", "Đã hủy")
+                };
+            }
+            <span class="badge-soft @cls">@text</span>
+        </div>
+
+        <dl class="row mb-0">
+            <dt class="col-sm-4 text-muted">Phòng</dt>
+            <dd class="col-sm-8">@Model.Phong?.TenPhong (@Model.Phong?.Khu)</dd>
+
+            <dt class="col-sm-4 text-muted">Người thuê</dt>
+            <dd class="col-sm-8">@Model.NguoiThue?.HoTen — @Model.NguoiThue?.SDT</dd>
+
+            <dt class="col-sm-4 text-muted">Ngày bắt đầu</dt>
+            <dd class="col-sm-8">@Model.NgayBatDau.ToString("dd/MM/yyyy")</dd>
+
+            <dt class="col-sm-4 text-muted">Ngày kết thúc</dt>
+            <dd class="col-sm-8">@(Model.NgayKetThuc?.ToString("dd/MM/yyyy") ?? "—")</dd>
+
+            <dt class="col-sm-4 text-muted">Tiền cọc</dt>
+            <dd class="col-sm-8 fw-bold">@Model.TienCoc.ToString("N0") đ</dd>
+
+            <dt class="col-sm-4 text-muted">Ghi chú</dt>
+            <dd class="col-sm-8">@(string.IsNullOrEmpty(Model.GhiChu) ? "—" : Model.GhiChu)</dd>
+        </dl>
+
+        <div class="mt-4 d-flex gap-2">
+            <a asp-action="Edit" asp-route-id="@Model.MaHopDong" class="btn btn-outline-secondary px-4">Sửa</a>
+
+            @if (Model.TrangThai == QuanLyKTX.Models.TrangThaiHopDong.DangHieuLuc)
+            {
+                <form asp-action="KetThuc" asp-route-id="@Model.MaHopDong" method="post" class="m-0">
+                    <button type="submit" class="btn btn-danger px-4 rounded-pill fw-bold"
+                            onclick="return confirm('Xác nhận kết thúc hợp đồng này? Phòng sẽ được trả về trạng thái Còn trống.')">
+                        Kết thúc hợp đồng
+                    </button>
+                </form>
+            }
+
+            <a asp-action="Index" class="btn btn-outline-secondary px-4">Quay lại</a>
+        </div>
+    </div>
+</div>

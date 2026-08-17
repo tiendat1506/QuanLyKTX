@@ -1,0 +1,12 @@
+@{
+    Layout = "_LoginLayout";
+    ViewData["Title"] = "Không có quyền truy cập";
+}
+
+<div class="d-flex w-100 align-items-center justify-content-center">
+    <div class="login-card text-center">
+        <i class="bi bi-shield-lock" style="font-size:40px;color:#c0392b;"></i>
+        <h4 class="mt-3">Bạn không có quyền truy cập trang này</h4>
+        <a asp-controller="Home" asp-action="Index" class="btn btn-login mt-3">Về trang chủ</a>
+    </div>
+</div>

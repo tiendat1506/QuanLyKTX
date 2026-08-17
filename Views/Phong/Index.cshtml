@@ -1,0 +1,121 @@
+@model IEnumerable<QuanLyKTX.Models.Phong>
+@{
+    ViewData["Title"] = "Quản lý Phòng";
+    var tong = Model.Count();
+    var trong = Model.Count(p => p.TrangThai == QuanLyKTX.Models.TrangThaiPhong.ConTrong);
+    var daDay = Model.Count(p => p.TrangThai == QuanLyKTX.Models.TrangThaiPhong.DaDay);
+    var baoTri = Model.Count(p => p.TrangThai == QuanLyKTX.Models.TrangThaiPhong.BaoTri);
+}
+
+<div class="reveal-up d1">
+    <span class="eyebrow">Cơ sở dữ liệu phòng</span>
+</div>
+
+<div class="row g-3 mb-4">
+    <div class="col-md-3">
+        <div class="stat-shell reveal-up d1">
+            <div class="stat-core">
+                <div class="stat-icon" style="background:linear-gradient(135deg,#6c5ce7,#a78bfa);"><i class="bi bi-door-closed-fill"></i></div>
+                <div><div class="stat-value">@tong</div><div class="stat-label">Tổng số phòng</div></div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="stat-shell reveal-up d2">
+            <div class="stat-core">
+                <div class="stat-icon" style="background:linear-gradient(135deg,#00875a,#4ade80);"><i class="bi bi-check-circle-fill"></i></div>
+                <div><div class="stat-value">@trong</div><div class="stat-label">Còn trống</div></div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="stat-shell reveal-up d3">
+            <div class="stat-core">
+                <div class="stat-icon" style="background:linear-gradient(135deg,#e08300,#facc15);"><i class="bi bi-people-fill"></i></div>
+                <div><div class="stat-value">@daDay</div><div class="stat-label">Đã đầy</div></div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="stat-shell reveal-up d4">
+            <div class="stat-core">
+                <div class="stat-icon" style="background:linear-gradient(135deg,#c0392b,#f87171);"><i class="bi bi-tools"></i></div>
+                <div><div class="stat-value">@baoTri</div><div class="stat-label">Đang bảo trì</div></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="card-panel reveal-up d2">
+    <div class="card-core">
+        <div class="page-header">
+            <h4>Danh sách phòng</h4>
+            <a asp-action="Create" class="btn-accent">
+                Thêm phòng
+                <span class="icon-chip"><i class="bi bi-plus-lg"></i></span>
+            </a>
+        </div>
+
+        <form method="get" class="row g-2 mb-3">
+            <div class="col-md-4">
+                <input type="text" name="timKiem" value="@ViewBag.TimKiem" class="form-control" placeholder="Tìm theo tên phòng, khu...">
+            </div>
+            <div class="col-md-3">
+                <select name="trangThai" class="form-select" asp-items="Html.GetEnumSelectList<QuanLyKTX.Models.TrangThaiPhong>()">
+                    <option value="">-- Tất cả trạng thái --</option>
+                </select>
+            </div>
+            <div class="col-md-2">
+                <button type="submit" class="btn btn-outline-secondary w-100"><i class="bi bi-search"></i> Lọc</button>
+            </div>
+        </form>
+
+        <div class="table-responsive">
+            <table class="table-modern">
+                <thead>
+                    <tr>
+                        <th>Tên phòng</th>
+                        <th>Khu / Tầng</th>
+                        <th>Loại phòng</th>
+                        <th>Sức chứa</th>
+                        <th>Giá phòng</th>
+                        <th>Trạng thái</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var p in Model)
+                    {
+                        <tr>
+                            <td class="fw-bold">@p.TenPhong</td>
+                            <td>@p.Khu / Tầng @p.Tang</td>
+                            <td>@p.LoaiPhong</td>
+                            <td>@p.SucChua người</td>
+                            <td>@p.GiaPhong.ToString("N0") đ</td>
+                            <td>
+                                @{
+                                    var (cls, text) = p.TrangThai switch
+                                    {
+                                        QuanLyKTX.Models.TrangThaiPhong.ConTrong => ("badge-trong", "Còn trống"),
+                                        QuanLyKTX.Models.TrangThaiPhong.DaDay => ("badge-daday", "Đã đầy"),
+                                        _ => ("badge-baotri", "Bảo trì")
+                                    };
+                                }
+                                <span class="badge-soft @cls">@text</span>
+                            </td>
+                            <td class="text-end">
+                                <a asp-action="Details" asp-route-id="@p.MaPhong" class="btn btn-sm btn-light"><i class="bi bi-eye"></i></a>
+                                <a asp-action="Edit" asp-route-id="@p.MaPhong" class="btn btn-sm btn-light"><i class="bi bi-pencil"></i></a>
+                                <a asp-action="Delete" asp-route-id="@p.MaPhong" class="btn btn-sm btn-light text-danger"><i class="bi bi-trash"></i></a>
+                            </td>
+                        </tr>
+                    }
+                    @if (!Model.Any())
+                    {
+                        <tr><td colspan="7" class="text-center text-muted py-4">Chưa có phòng nào</td></tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

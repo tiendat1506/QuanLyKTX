@@ -1,0 +1,45 @@
+@model QuanLyKTX.Models.Phong
+@{ ViewData["Title"] = "Chi tiết phòng " + Model.TenPhong; }
+
+<div class="card-panel form-card">
+    <div class="d-flex justify-content-between align-items-start mb-4">
+        <div>
+            <h4 class="fw-bold mb-1">@Model.TenPhong</h4>
+            <div class="text-muted">@Model.Khu — Tầng @Model.Tang</div>
+        </div>
+        @{
+            var (cls, text) = Model.TrangThai switch
+            {
+                QuanLyKTX.Models.TrangThaiPhong.ConTrong => ("badge-trong", "Còn trống"),
+                QuanLyKTX.Models.TrangThaiPhong.DaDay => ("badge-daday", "Đã đầy"),
+                _ => ("badge-baotri", "Bảo trì")
+            };
+        }
+        <span class="badge-soft @cls">@text</span>
+    </div>
+
+    <dl class="row mb-0">
+        <dt class="col-sm-4 text-muted">Loại phòng</dt>
+        <dd class="col-sm-8">@Model.LoaiPhong</dd>
+
+        <dt class="col-sm-4 text-muted">Sức chứa</dt>
+        <dd class="col-sm-8">@Model.SucChua người</dd>
+
+        <dt class="col-sm-4 text-muted">Diện tích</dt>
+        <dd class="col-sm-8">@Model.DienTich m²</dd>
+
+        <dt class="col-sm-4 text-muted">Giá phòng / tháng</dt>
+        <dd class="col-sm-8 fw-bold">@Model.GiaPhong.ToString("N0") đ</dd>
+
+        <dt class="col-sm-4 text-muted">Ngày đưa vào sử dụng</dt>
+        <dd class="col-sm-8">@Model.NgayDuaVaoSuDung.ToString("dd/MM/yyyy")</dd>
+
+        <dt class="col-sm-4 text-muted">Ghi chú</dt>
+        <dd class="col-sm-8">@(string.IsNullOrEmpty(Model.GhiChu) ? "—" : Model.GhiChu)</dd>
+    </dl>
+
+    <div class="mt-4 d-flex gap-2">
+        <a asp-action="Edit" asp-route-id="@Model.MaPhong" class="btn btn-accent px-4">Sửa</a>
+        <a asp-action="Index" class="btn btn-outline-secondary px-4">Quay lại</a>
+    </div>
+</div>

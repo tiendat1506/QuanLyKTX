@@ -1,0 +1,63 @@
+@model IEnumerable<QuanLyKTX.Models.NguoiThue>
+@{
+    ViewData["Title"] = "Quản lý Người thuê";
+}
+
+<span class="eyebrow">Cơ sở dữ liệu người thuê</span>
+
+<div class="card-panel reveal-up d1">
+    <div class="card-core">
+        <div class="page-header">
+            <h4>Danh sách người thuê</h4>
+            <a asp-action="Create" class="btn-accent">
+                Thêm người thuê
+                <span class="icon-chip"><i class="bi bi-plus-lg"></i></span>
+            </a>
+        </div>
+
+        <form method="get" class="row g-2 mb-3">
+            <div class="col-md-5">
+                <input type="text" name="timKiem" value="@ViewBag.TimKiem" class="form-control" placeholder="Tìm theo họ tên, CCCD, SĐT...">
+            </div>
+            <div class="col-md-2">
+                <button type="submit" class="btn btn-outline-secondary w-100"><i class="bi bi-search"></i> Tìm</button>
+            </div>
+        </form>
+
+        <div class="table-responsive">
+            <table class="table-modern">
+                <thead>
+                    <tr>
+                        <th>Họ tên</th>
+                        <th>CCCD/CMND</th>
+                        <th>Điện thoại</th>
+                        <th>Email</th>
+                        <th>Quê quán</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var n in Model)
+                    {
+                        <tr>
+                            <td class="fw-bold">@n.HoTen</td>
+                            <td>@n.CCCD</td>
+                            <td>@n.SDT</td>
+                            <td>@(n.Email ?? "—")</td>
+                            <td>@(n.QueQuan ?? "—")</td>
+                            <td class="text-end">
+                                <a asp-action="Details" asp-route-id="@n.MaNguoiThue" class="btn btn-sm btn-light"><i class="bi bi-eye"></i></a>
+                                <a asp-action="Edit" asp-route-id="@n.MaNguoiThue" class="btn btn-sm btn-light"><i class="bi bi-pencil"></i></a>
+                                <a asp-action="Delete" asp-route-id="@n.MaNguoiThue" class="btn btn-sm btn-light text-danger"><i class="bi bi-trash"></i></a>
+                            </td>
+                        </tr>
+                    }
+                    @if (!Model.Any())
+                    {
+                        <tr><td colspan="6" class="text-center text-muted py-4">Chưa có người thuê nào</td></tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

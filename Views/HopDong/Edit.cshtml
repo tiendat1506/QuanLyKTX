@@ -1,0 +1,38 @@
+@model QuanLyKTX.Models.HopDong
+@{ ViewData["Title"] = "Sửa hợp đồng"; }
+
+<div class="card-panel form-card reveal-up d1">
+    <div class="card-core">
+        <h5 class="fw-bold mb-4">Sửa hợp đồng</h5>
+        <form asp-action="Edit" method="post">
+            <input type="hidden" asp-for="MaHopDong" />
+            <input type="hidden" asp-for="MaPhong" />
+            <input type="hidden" asp-for="MaNguoiThue" />
+            <input type="hidden" asp-for="TrangThai" />
+            <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
+
+            <div class="row g-3">
+                <div class="col-md-6">
+                    <label asp-for="NgayBatDau" class="form-label">Ngày bắt đầu</label>
+                    <input asp-for="NgayBatDau" type="date" class="form-control" />
+                </div>
+                <div class="col-md-6">
+                    <label asp-for="TienCoc" class="form-label">Tiền cọc (đ)</label>
+                    <input asp-for="TienCoc" type="number" class="form-control" />
+                </div>
+                <div class="col-12">
+                    <label asp-for="GhiChu" class="form-label">Ghi chú</label>
+                    <textarea asp-for="GhiChu" class="form-control" rows="2"></textarea>
+                </div>
+            </div>
+
+            <div class="mt-4 d-flex gap-2">
+                <button type="submit" class="btn-accent">
+                    Cập nhật
+                    <span class="icon-chip"><i class="bi bi-check-lg"></i></span>
+                </button>
+                <a asp-action="Index" class="btn btn-outline-secondary px-4">Hủy</a>
+            </div>
+        </form>
+    </div>
+</div>

@@ -1,0 +1,22 @@
+@model QuanLyKTX.Models.Phong
+@{ ViewData["Title"] = "Xóa phòng"; }
+
+<div class="card-panel form-card">
+    <div class="d-flex align-items-center gap-3 mb-3">
+        <div class="stat-icon" style="background:#c0392b;"><i class="bi bi-exclamation-triangle-fill"></i></div>
+        <div>
+            <h5 class="fw-bold mb-0">Xác nhận xóa phòng</h5>
+            <div class="text-muted">Hành động này không thể hoàn tác</div>
+        </div>
+    </div>
+
+    <p>Bạn có chắc muốn xóa phòng <strong>@Model.TenPhong</strong> (@Model.Khu, tầng @Model.Tang)?</p>
+
+    <form asp-action="Delete" method="post">
+        <input type="hidden" asp-for="MaPhong" />
+        <div class="d-flex gap-2">
+            <button type="submit" class="btn btn-danger px-4">Xóa phòng</button>
+            <a asp-action="Index" class="btn btn-outline-secondary px-4">Hủy</a>
+        </div>
+    </form>
+</div>

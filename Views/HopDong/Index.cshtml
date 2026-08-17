@@ -1,0 +1,76 @@
+@model IEnumerable<QuanLyKTX.Models.HopDong>
+@{
+    ViewData["Title"] = "Quản lý Hợp đồng";
+}
+
+<span class="eyebrow">Cơ sở dữ liệu hợp đồng</span>
+
+<div class="card-panel reveal-up d1">
+    <div class="card-core">
+        <div class="page-header">
+            <h4>Danh sách hợp đồng</h4>
+            <a asp-action="Create" class="btn-accent">
+                Lập hợp đồng
+                <span class="icon-chip"><i class="bi bi-plus-lg"></i></span>
+            </a>
+        </div>
+
+        <form method="get" class="row g-2 mb-3">
+            <div class="col-md-3">
+                <select name="trangThai" class="form-select" asp-items="Html.GetEnumSelectList<QuanLyKTX.Models.TrangThaiHopDong>()">
+                    <option value="">-- Tất cả trạng thái --</option>
+                </select>
+            </div>
+            <div class="col-md-2">
+                <button type="submit" class="btn btn-outline-secondary w-100"><i class="bi bi-funnel"></i> Lọc</button>
+            </div>
+        </form>
+
+        <div class="table-responsive">
+            <table class="table-modern">
+                <thead>
+                    <tr>
+                        <th>Phòng</th>
+                        <th>Người thuê</th>
+                        <th>Ngày bắt đầu</th>
+                        <th>Ngày kết thúc</th>
+                        <th>Tiền cọc</th>
+                        <th>Trạng thái</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var h in Model)
+                    {
+                        <tr>
+                            <td class="fw-bold">@h.Phong?.TenPhong</td>
+                            <td>@h.NguoiThue?.HoTen</td>
+                            <td>@h.NgayBatDau.ToString("dd/MM/yyyy")</td>
+                            <td>@(h.NgayKetThuc?.ToString("dd/MM/yyyy") ?? "—")</td>
+                            <td>@h.TienCoc.ToString("N0") đ</td>
+                            <td>
+                                @{
+                                    var (cls, text) = h.TrangThai switch
+                                    {
+                                        QuanLyKTX.Models.TrangThaiHopDong.DangHieuLuc => ("badge-trong", "Đang hiệu lực"),
+                                        QuanLyKTX.Models.TrangThaiHopDong.DaKetThuc => ("badge-daday", "Đã kết thúc"),
+                                        _ => ("badge-baotri", "Đã hủy")
+                                    };
+                                }
+                                <span class="badge-soft @cls">@text</span>
+                            </td>
+                            <td class="text-end">
+                                <a asp-action="Details" asp-route-id="@h.MaHopDong" class="btn btn-sm btn-light"><i class="bi bi-eye"></i></a>
+                                <a asp-action="Edit" asp-route-id="@h.MaHopDong" class="btn btn-sm btn-light"><i class="bi bi-pencil"></i></a>
+                            </td>
+                        </tr>
+                    }
+                    @if (!Model.Any())
+                    {
+                        <tr><td colspan="7" class="text-center text-muted py-4">Chưa có hợp đồng nào</td></tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

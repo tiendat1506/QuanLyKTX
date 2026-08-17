@@ -1,0 +1,60 @@
+@model QuanLyKTX.Models.NguoiThue
+@{ ViewData["Title"] = "Sửa thông tin người thuê"; }
+
+<div class="card-panel form-card reveal-up d1">
+    <div class="card-core">
+        <h5 class="fw-bold mb-4">Sửa thông tin người thuê</h5>
+        <form asp-action="Edit" method="post">
+            <input type="hidden" asp-for="MaNguoiThue" />
+            <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
+
+            <div class="row g-3">
+                <div class="col-md-8">
+                    <label asp-for="HoTen" class="form-label">Họ và tên</label>
+                    <input asp-for="HoTen" class="form-control" />
+                    <span asp-validation-for="HoTen" class="text-danger small"></span>
+                </div>
+                <div class="col-md-4">
+                    <label asp-for="GioiTinh" class="form-label">Giới tính</label>
+                    <select asp-for="GioiTinh" class="form-select">
+                        <option value="">-- Chọn --</option>
+                        <option value="Nam">Nam</option>
+                        <option value="Nữ">Nữ</option>
+                        <option value="Khác">Khác</option>
+                    </select>
+                </div>
+                <div class="col-md-6">
+                    <label asp-for="CCCD" class="form-label">Số CCCD/CMND</label>
+                    <input asp-for="CCCD" class="form-control" />
+                    <span asp-validation-for="CCCD" class="text-danger small"></span>
+                </div>
+                <div class="col-md-6">
+                    <label asp-for="NgaySinh" class="form-label">Ngày sinh</label>
+                    <input asp-for="NgaySinh" type="date" class="form-control" />
+                </div>
+                <div class="col-md-6">
+                    <label asp-for="SDT" class="form-label">Số điện thoại</label>
+                    <input asp-for="SDT" class="form-control" />
+                    <span asp-validation-for="SDT" class="text-danger small"></span>
+                </div>
+                <div class="col-md-6">
+                    <label asp-for="Email" class="form-label">Email</label>
+                    <input asp-for="Email" class="form-control" />
+                    <span asp-validation-for="Email" class="text-danger small"></span>
+                </div>
+                <div class="col-12">
+                    <label asp-for="QueQuan" class="form-label">Quê quán</label>
+                    <input asp-for="QueQuan" class="form-control" />
+                </div>
+            </div>
+
+            <div class="mt-4 d-flex gap-2">
+                <button type="submit" class="btn-accent">
+                    Cập nhật
+                    <span class="icon-chip"><i class="bi bi-check-lg"></i></span>
+                </button>
+                <a asp-action="Index" class="btn btn-outline-secondary px-4">Hủy</a>
+            </div>
+        </form>
+    </div>
+</div>

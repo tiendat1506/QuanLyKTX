@@ -1,0 +1,354 @@
+:root {
+  --ink: #111114;
+  --text-muted: #85858f;
+  --sidebar-bg: #0d0d16;
+  --sidebar-hover: #1a1a26;
+  --accent: #6c5ce7;
+  --accent-2: #00d9a5;
+  --surface: #ffffff;
+  --bg: #f7f7fa;
+  --shell: rgba(17,17,20,0.035);
+  --shell-border: rgba(17,17,20,0.06);
+  --shadow-soft: 0 1px 2px rgba(17,17,20,0.04), 0 16px 44px rgba(17,17,20,0.07);
+  --shadow-soft-lg: 0 4px 10px rgba(17,17,20,0.05), 0 28px 70px rgba(17,17,20,0.10);
+  --ease: cubic-bezier(0.32,0.72,0,1);
+}
+
+* { box-sizing: border-box; }
+
+body {
+  font-family: 'Plus Jakarta Sans', -apple-system, sans-serif;
+  background: var(--bg);
+  color: var(--ink);
+  margin: 0;
+  -webkit-font-smoothing: antialiased;
+}
+
+.app-shell { display: flex; min-height: 100vh; }
+
+/* ---- Sidebar : Ethereal Glass ---- */
+.sidebar {
+  width: 258px;
+  background: var(--sidebar-bg);
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  position: relative;
+}
+.sidebar::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(420px circle at 15% 8%, rgba(108,92,231,0.20), transparent 60%),
+    radial-gradient(320px circle at 85% 92%, rgba(0,217,165,0.14), transparent 60%);
+  pointer-events: none;
+}
+
+.sidebar-brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 26px 22px;
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+  position: relative;
+  z-index: 1;
+}
+
+.brand-mark {
+  width: 42px;
+  height: 42px;
+  border-radius: 13px;
+  background: linear-gradient(135deg, var(--accent), var(--accent-2));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  font-size: 12px;
+  box-shadow: 0 8px 22px rgba(108,92,231,0.35), inset 0 1px 1px rgba(255,255,255,0.3);
+}
+
+.brand-title { font-weight: 800; font-size: 15px; line-height: 1.2; }
+.brand-sub { font-size: 12px; color: rgba(255,255,255,0.42); }
+
+.sidebar-nav { padding: 18px 12px; display: flex; flex-direction: column; gap: 2px; position: relative; z-index: 1; }
+
+/* ---- Main column ---- */
+.main-col { flex: 1; display: flex; flex-direction: column; min-width: 0; }
+
+.topbar {
+  height: 72px;
+  background: rgba(255,255,255,0.72);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--shell-border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 32px;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.topbar-title { font-weight: 800; font-size: 21px; letter-spacing: -0.01em; }
+.topbar-user { color: var(--text-muted); font-weight: 600; font-size: 13.5px; }
+
+.content { padding: 36px; }
+
+/* ==================== Double-Bezel card system ==================== */
+.card-panel {
+  background: var(--shell);
+  border: 1px solid var(--shell-border);
+  border-radius: 28px;
+  padding: 8px;
+}
+.card-panel > .core,
+.card-panel {
+  position: relative;
+}
+.card-panel::after { content: ""; }
+
+/* Real inner core wrapper (use this markup inside .card-panel) */
+.card-core {
+  background: var(--surface);
+  border-radius: 22px;
+  padding: 26px 28px;
+  box-shadow: inset 0 1px 1px rgba(255,255,255,0.7), var(--shadow-soft);
+}
+
+/* Fallback: if .card-panel used directly without .card-core child, still look decent */
+.card-panel.flat {
+  background: var(--surface);
+  border-radius: 22px;
+  box-shadow: var(--shadow-soft);
+  padding: 26px 28px;
+  border: 1px solid var(--shell-border);
+}
+
+.stat-shell {
+  background: var(--shell);
+  border: 1px solid var(--shell-border);
+  border-radius: 24px;
+  padding: 6px;
+}
+.stat-core {
+  background: var(--surface);
+  border-radius: 19px;
+  padding: 20px 22px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  box-shadow: inset 0 1px 1px rgba(255,255,255,0.7), var(--shadow-soft);
+  transition: transform 0.5s var(--ease), box-shadow 0.5s var(--ease);
+}
+.stat-shell:hover .stat-core {
+  transform: translateY(-4px);
+  box-shadow: inset 0 1px 1px rgba(255,255,255,0.7), var(--shadow-soft-lg);
+}
+
+.stat-icon {
+  width: 46px;
+  height: 46px;
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 19px;
+  color: #fff;
+  flex-shrink: 0;
+  box-shadow: inset 0 1px 1px rgba(255,255,255,0.35);
+}
+
+.stat-value { font-size: 25px; font-weight: 800; line-height: 1.1; letter-spacing: -0.01em; }
+.stat-label { color: var(--text-muted); font-size: 12.5px; font-weight: 600; margin-top: 2px; }
+
+/* ==================== Eyebrow tag ==================== */
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  padding: 5px 12px;
+  border-radius: 999px;
+  background: rgba(108,92,231,0.08);
+  color: var(--accent);
+  font-size: 10.5px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  font-weight: 800;
+  margin-bottom: 10px;
+}
+
+/* ==================== Pill buttons, Button-in-Button icon ==================== */
+.btn-accent {
+  background: linear-gradient(135deg, var(--accent), #7d6ff0);
+  border: none;
+  color: #fff;
+  font-weight: 700;
+  font-size: 14.5px;
+  border-radius: 999px;
+  padding: 11px 20px;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  box-shadow: 0 10px 26px rgba(108,92,231,0.28);
+  transition: transform 0.45s var(--ease), box-shadow 0.45s var(--ease), filter 0.3s var(--ease);
+  text-decoration: none;
+}
+.btn-accent:hover { transform: translateY(-2px); box-shadow: 0 16px 36px rgba(108,92,231,0.36); color: #fff; filter: brightness(1.04); }
+.btn-accent:active { transform: translateY(0) scale(0.98); }
+
+.btn-accent .icon-chip {
+  width: 26px; height: 26px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.2);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 13px;
+  transition: transform 0.45s var(--ease);
+}
+.btn-accent:hover .icon-chip { transform: translate(2px, -1px) scale(1.08); }
+
+.btn-outline-secondary {
+  border-radius: 999px !important;
+  border: 1.5px solid var(--shell-border) !important;
+  font-weight: 700 !important;
+  padding: 10px 20px !important;
+  transition: transform 0.35s var(--ease), border-color 0.3s var(--ease) !important;
+  color: var(--ink) !important;
+}
+.btn-outline-secondary:hover { transform: translateY(-2px); border-color: var(--accent) !important; color: var(--accent) !important; background: transparent !important; }
+
+.btn-light { border-radius: 12px !important; border: 1px solid var(--shell-border) !important; transition: transform 0.3s var(--ease) !important; }
+.btn-light:hover { transform: translateY(-1px); }
+
+/* ==================== Table ==================== */
+.table-modern { width: 100%; border-collapse: separate; border-spacing: 0; }
+
+.table-modern thead th {
+  text-transform: uppercase;
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  color: var(--text-muted);
+  font-weight: 800;
+  border-bottom: 1px solid var(--shell-border);
+  padding: 13px 16px;
+  background: transparent;
+}
+
+.table-modern tbody td {
+  padding: 15px 16px;
+  border-bottom: 1px solid var(--shell-border);
+  font-size: 14.5px;
+  vertical-align: middle;
+}
+
+.table-modern tbody tr { transition: background 0.3s var(--ease); }
+.table-modern tbody tr:hover { background: rgba(108,92,231,0.03); }
+
+/* ==================== Badges ==================== */
+.badge-trong { background: #e8f9f2; color: #00875a; }
+.badge-daday { background: #fff3e4; color: #b25e00; }
+.badge-baotri { background: #fde9e9; color: #c0392b; }
+
+.badge-soft {
+  padding: 5px 13px;
+  border-radius: 999px;
+  font-size: 11.5px;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+}
+
+/* ==================== Forms ==================== */
+.form-card { max-width: 660px; }
+
+.form-label { font-weight: 700; font-size: 13px; color: var(--ink); margin-bottom: 6px; }
+
+.form-control, .form-select {
+  border-radius: 13px;
+  border: 1.5px solid var(--shell-border);
+  padding: 11px 14px;
+  font-size: 14.5px;
+  transition: border-color 0.3s var(--ease), box-shadow 0.3s var(--ease), transform 0.2s var(--ease);
+}
+
+.form-control:focus, .form-select:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 4px rgba(108,92,231,0.13);
+  transform: translateY(-1px);
+}
+
+.page-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 26px; }
+.page-header h4 { font-weight: 800; margin: 0; letter-spacing: -0.01em; }
+
+/* ==================== Alerts ==================== */
+.alert { border-radius: 16px; border: 1px solid var(--shell-border); padding: 14px 18px; font-size: 14px; }
+.alert-success { background: #e8f9f2; color: #00875a; border-color: rgba(0,135,90,0.12); }
+.alert-danger { background: #fdeded; color: #c0392b; border-color: rgba(192,57,43,0.12); }
+
+/* ==================== Glow Menu ==================== */
+.glow-nav { position: relative; }
+
+.glow-item {
+  position: relative;
+  display: block;
+  border-radius: 14px;
+  overflow: hidden;
+  text-decoration: none;
+  margin-bottom: 4px;
+}
+
+.glow-item .glow-bg {
+  position: absolute;
+  inset: -6px;
+  background: var(--glow);
+  opacity: 0;
+  transform: scale(0.7);
+  transition: opacity 0.5s var(--ease), transform 0.5s var(--ease);
+  pointer-events: none;
+  border-radius: 18px;
+}
+.glow-item:hover .glow-bg,
+.glow-item.active .glow-bg { opacity: 1; transform: scale(1.4); }
+
+.flip-wrap { position: relative; display: block; height: 40px; perspective: 500px; }
+
+.flip-face {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 0 14px;
+  font-weight: 600;
+  font-size: 14.5px;
+  color: rgba(255,255,255,0.62);
+  backface-visibility: hidden;
+  transition: transform 0.5s var(--ease), opacity 0.4s var(--ease);
+  transform-style: preserve-3d;
+}
+
+.flip-front { transform-origin: center bottom; transform: rotateX(0deg); opacity: 1; }
+.flip-back { transform-origin: center top; transform: rotateX(90deg); opacity: 0; }
+
+.glow-item:hover .flip-front { transform: rotateX(-90deg); opacity: 0; }
+.glow-item:hover .flip-back { transform: rotateX(0deg); opacity: 1; }
+
+.glow-item.active .flip-front, .glow-item.active .flip-back { color: #fff; }
+
+.glow-item i { font-size: 16.5px; width: 18px; text-align: center; }
+
+/* ==================== Scroll entry animation (fade-up-blur) ==================== */
+.reveal-up {
+  animation: revealUp 0.8s var(--ease) both;
+}
+@keyframes revealUp {
+  from { opacity: 0; transform: translateY(18px); filter: blur(6px); }
+  to { opacity: 1; transform: translateY(0); filter: blur(0); }
+}
+.reveal-up.d1 { animation-delay: 0.05s; }
+.reveal-up.d2 { animation-delay: 0.12s; }
+.reveal-up.d3 { animation-delay: 0.19s; }
+.reveal-up.d4 { animation-delay: 0.26s; }
