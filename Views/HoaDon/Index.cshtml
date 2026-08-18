@@ -1,0 +1,85 @@
+@model IEnumerable<QuanLyKTX.Models.HoaDon>
+@{
+    ViewData["Title"] = "Hóa đơn";
+}
+
+<span class="eyebrow">Hóa đơn hàng tháng</span>
+
+<div class="card-panel reveal-up d1">
+    <div class="card-core">
+        <div class="page-header">
+            <h4>Danh sách hóa đơn</h4>
+            <a asp-action="TaoHangLoat" class="btn-accent">
+                Tạo hóa đơn hàng loạt
+                <span class="icon-chip"><i class="bi bi-lightning-fill"></i></span>
+            </a>
+        </div>
+
+        <form method="get" class="row g-2 mb-3">
+            <div class="col-md-2">
+                <select name="thang" class="form-select">
+                    <option value="">-- Tháng --</option>
+                    @for (int i = 1; i <= 12; i++)
+                    {
+                        <option value="@i" selected="@(ViewBag.Thang == i)">Tháng @i</option>
+                    }
+                </select>
+            </div>
+            <div class="col-md-2">
+                <input type="number" name="nam" value="@ViewBag.Nam" class="form-control" placeholder="Năm">
+            </div>
+            <div class="col-md-3">
+                <select name="trangThai" class="form-select" asp-items="Html.GetEnumSelectList<QuanLyKTX.Models.TrangThaiHoaDon>()">
+                    <option value="">-- Trạng thái --</option>
+                </select>
+            </div>
+            <div class="col-md-2">
+                <button type="submit" class="btn btn-outline-secondary w-100"><i class="bi bi-funnel"></i> Lọc</button>
+            </div>
+        </form>
+
+        <div class="table-responsive">
+            <table class="table-modern">
+                <thead>
+                    <tr>
+                        <th>Phòng</th>
+                        <th>Người thuê</th>
+                        <th>Tháng/Năm</th>
+                        <th>Tổng tiền</th>
+                        <th>Trạng thái</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var h in Model)
+                    {
+                        <tr>
+                            <td class="fw-bold">@h.HopDong?.Phong?.TenPhong</td>
+                            <td>@h.HopDong?.NguoiThue?.HoTen</td>
+                            <td>@h.Thang / @h.Nam</td>
+                            <td class="fw-bold">@h.TongTien.ToString("N0") đ</td>
+                            <td>
+                                @{
+                                    var (cls, text) = h.TrangThai switch
+                                    {
+                                        QuanLyKTX.Models.TrangThaiHoaDon.DaThanhToan => ("badge-trong", "Đã thanh toán"),
+                                        QuanLyKTX.Models.TrangThaiHoaDon.QuaHan => ("badge-baotri", "Quá hạn"),
+                                        _ => ("badge-daday", "Chưa thanh toán")
+                                    };
+                                }
+                                <span class="badge-soft @cls">@text</span>
+                            </td>
+                            <td class="text-end">
+                                <a asp-action="Details" asp-route-id="@h.MaHoaDon" class="btn btn-sm btn-light"><i class="bi bi-eye"></i></a>
+                            </td>
+                        </tr>
+                    }
+                    @if (!Model.Any())
+                    {
+                        <tr><td colspan="6" class="text-center text-muted py-4">Chưa có hóa đơn nào</td></tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

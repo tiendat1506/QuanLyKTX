@@ -1,0 +1,71 @@
+@model IEnumerable<QuanLyKTX.Models.ChiSoDienNuoc>
+@{
+    ViewData["Title"] = "Điện nước";
+}
+
+<span class="eyebrow">Chỉ số điện nước hàng tháng</span>
+
+<div class="card-panel reveal-up d1">
+    <div class="card-core">
+        <div class="page-header">
+            <h4>Danh sách chỉ số</h4>
+            <a asp-action="Create" class="btn-accent">
+                Ghi chỉ số mới
+                <span class="icon-chip"><i class="bi bi-plus-lg"></i></span>
+            </a>
+        </div>
+
+        <form method="get" class="row g-2 mb-3">
+            <div class="col-md-2">
+                <select name="thang" class="form-select">
+                    <option value="">-- Tháng --</option>
+                    @for (int i = 1; i <= 12; i++)
+                    {
+                        <option value="@i" selected="@(ViewBag.Thang == i)">Tháng @i</option>
+                    }
+                </select>
+            </div>
+            <div class="col-md-2">
+                <input type="number" name="nam" value="@ViewBag.Nam" class="form-control" placeholder="Năm (VD: 2026)">
+            </div>
+            <div class="col-md-2">
+                <button type="submit" class="btn btn-outline-secondary w-100"><i class="bi bi-funnel"></i> Lọc</button>
+            </div>
+        </form>
+
+        <div class="table-responsive">
+            <table class="table-modern">
+                <thead>
+                    <tr>
+                        <th>Phòng</th>
+                        <th>Tháng/Năm</th>
+                        <th>Điện tiêu thụ</th>
+                        <th>Nước tiêu thụ</th>
+                        <th>Ngày ghi</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var c in Model)
+                    {
+                        <tr>
+                            <td class="fw-bold">@c.Phong?.TenPhong</td>
+                            <td>@c.Thang / @c.Nam</td>
+                            <td>@c.SoDienTieuThu kWh <span class="text-muted small">(@c.ChiSoDienCu → @c.ChiSoDienMoi)</span></td>
+                            <td>@c.SoNuocTieuThu m³ <span class="text-muted small">(@c.ChiSoNuocCu → @c.ChiSoNuocMoi)</span></td>
+                            <td>@c.NgayGhi.ToString("dd/MM/yyyy")</td>
+                            <td class="text-end">
+                                <a asp-action="Edit" asp-route-id="@c.MaChiSo" class="btn btn-sm btn-light"><i class="bi bi-pencil"></i></a>
+                                <a asp-action="Delete" asp-route-id="@c.MaChiSo" class="btn btn-sm btn-light text-danger"><i class="bi bi-trash"></i></a>
+                            </td>
+                        </tr>
+                    }
+                    @if (!Model.Any())
+                    {
+                        <tr><td colspan="6" class="text-center text-muted py-4">Chưa có dữ liệu chỉ số nào</td></tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,60 @@
+@model QuanLyKTX.Models.ChiSoDienNuoc
+@{ ViewData["Title"] = "Sửa chỉ số điện nước"; }
+
+<div class="card-panel form-card reveal-up d1">
+    <div class="card-core">
+        <h5 class="fw-bold mb-4">Sửa chỉ số điện nước</h5>
+        <form asp-action="Edit" method="post">
+            <input type="hidden" asp-for="MaChiSo" />
+            <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
+
+            <div class="row g-3">
+                <div class="col-md-6">
+                    <label class="form-label">Phòng</label>
+                    <select asp-for="MaPhong" asp-items="ViewBag.DanhSachPhong" class="form-select"></select>
+                </div>
+                <div class="col-md-3">
+                    <label asp-for="Thang" class="form-label">Tháng</label>
+                    <input asp-for="Thang" type="number" min="1" max="12" class="form-control" />
+                </div>
+                <div class="col-md-3">
+                    <label asp-for="Nam" class="form-label">Năm</label>
+                    <input asp-for="Nam" type="number" class="form-control" />
+                </div>
+
+                <div class="col-md-6">
+                    <label asp-for="ChiSoDienCu" class="form-label">Chỉ số điện cũ (kWh)</label>
+                    <input asp-for="ChiSoDienCu" type="number" class="form-control" />
+                </div>
+                <div class="col-md-6">
+                    <label asp-for="ChiSoDienMoi" class="form-label">Chỉ số điện mới (kWh)</label>
+                    <input asp-for="ChiSoDienMoi" type="number" class="form-control" />
+                    <span asp-validation-for="ChiSoDienMoi" class="text-danger small"></span>
+                </div>
+
+                <div class="col-md-6">
+                    <label asp-for="ChiSoNuocCu" class="form-label">Chỉ số nước cũ (m³)</label>
+                    <input asp-for="ChiSoNuocCu" type="number" class="form-control" />
+                </div>
+                <div class="col-md-6">
+                    <label asp-for="ChiSoNuocMoi" class="form-label">Chỉ số nước mới (m³)</label>
+                    <input asp-for="ChiSoNuocMoi" type="number" class="form-control" />
+                    <span asp-validation-for="ChiSoNuocMoi" class="text-danger small"></span>
+                </div>
+
+                <div class="col-md-6">
+                    <label asp-for="NgayGhi" class="form-label">Ngày ghi số</label>
+                    <input asp-for="NgayGhi" type="date" class="form-control" />
+                </div>
+            </div>
+
+            <div class="mt-4 d-flex gap-2">
+                <button type="submit" class="btn-accent">
+                    Cập nhật
+                    <span class="icon-chip"><i class="bi bi-check-lg"></i></span>
+                </button>
+                <a asp-action="Index" class="btn btn-outline-secondary px-4">Hủy</a>
+            </div>
+        </form>
+    </div>
+</div>

@@ -10,6 +10,8 @@ var builder = WebApplication.CreateBuilder(args);
 // dùng connection string "DefaultConnection" đọc từ appsettings.json
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+    builder.Services.AddScoped<QuanLyKTX.Services.TinhTienService>();
+    builder.Services.AddScoped<QuanLyKTX.Services.HoaDonService>();
 
 // Đăng ký Cookie Authentication - cơ chế "nhớ đăng nhập" bằng cookie
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)

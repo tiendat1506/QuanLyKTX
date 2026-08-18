@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using QuanLyKTX.Data;
 
@@ -11,9 +12,11 @@ using QuanLyKTX.Data;
 namespace QuanLyKTX.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260818044719_ThemDienNuoc")]
+    partial class ThemDienNuoc
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -21,31 +24,6 @@ namespace QuanLyKTX.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
-
-            modelBuilder.Entity("QuanLyKTX.Models.BacGia", b =>
-                {
-                    b.Property<int>("MaBacGia")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("MaBacGia"));
-
-                    b.Property<int?>("DenSo")
-                        .HasColumnType("int");
-
-                    b.Property<decimal>("DonGia")
-                        .HasColumnType("decimal(18,0)");
-
-                    b.Property<int>("Loai")
-                        .HasColumnType("int");
-
-                    b.Property<int>("TuSo")
-                        .HasColumnType("int");
-
-                    b.HasKey("MaBacGia");
-
-                    b.ToTable("BacGias");
-                });
 
             modelBuilder.Entity("QuanLyKTX.Models.ChiSoDienNuoc", b =>
                 {
@@ -85,55 +63,6 @@ namespace QuanLyKTX.Migrations
                         .IsUnique();
 
                     b.ToTable("ChiSoDienNuocs");
-                });
-
-            modelBuilder.Entity("QuanLyKTX.Models.HoaDon", b =>
-                {
-                    b.Property<int>("MaHoaDon")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("MaHoaDon"));
-
-                    b.Property<DateTime>("HanThanhToan")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("MaHopDong")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Nam")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("NgayLap")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("Thang")
-                        .HasColumnType("int");
-
-                    b.Property<decimal>("TienDien")
-                        .HasColumnType("decimal(18,0)");
-
-                    b.Property<decimal>("TienKhac")
-                        .HasColumnType("decimal(18,0)");
-
-                    b.Property<decimal>("TienNuoc")
-                        .HasColumnType("decimal(18,0)");
-
-                    b.Property<decimal>("TienPhong")
-                        .HasColumnType("decimal(18,0)");
-
-                    b.Property<decimal>("TongTien")
-                        .HasColumnType("decimal(18,0)");
-
-                    b.Property<int>("TrangThai")
-                        .HasColumnType("int");
-
-                    b.HasKey("MaHoaDon");
-
-                    b.HasIndex("MaHopDong", "Thang", "Nam")
-                        .IsUnique();
-
-                    b.ToTable("HoaDons");
                 });
 
             modelBuilder.Entity("QuanLyKTX.Models.HopDong", b =>
@@ -309,17 +238,6 @@ namespace QuanLyKTX.Migrations
                         .IsRequired();
 
                     b.Navigation("Phong");
-                });
-
-            modelBuilder.Entity("QuanLyKTX.Models.HoaDon", b =>
-                {
-                    b.HasOne("QuanLyKTX.Models.HopDong", "HopDong")
-                        .WithMany()
-                        .HasForeignKey("MaHopDong")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("HopDong");
                 });
 
             modelBuilder.Entity("QuanLyKTX.Models.HopDong", b =>

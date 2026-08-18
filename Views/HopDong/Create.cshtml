@@ -27,6 +27,11 @@
                     <input asp-for="NgayBatDau" type="date" class="form-control" />
                 </div>
                 <div class="col-md-6">
+                    <label asp-for="NgayKetThuc" class="form-label">Ngày kết thúc (dự kiến)</label>
+                    <input asp-for="NgayKetThuc" type="date" class="form-control" />
+                    <span asp-validation-for="NgayKetThuc" class="text-danger small"></span>
+                </div>
+                <div class="col-md-6">
                     <label asp-for="TienCoc" class="form-label">Tiền cọc (đ)</label>
                     <input asp-for="TienCoc" type="number" class="form-control" />
                 </div>
